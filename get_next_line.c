@@ -3,46 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-cunh <mda-cunh@42paris.fr>             +#+  +:+       +#+        */
+/*   By: mda-cunh <mda-cunh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 18:23:02 by mda-cunh          #+#    #+#             */
-/*   Updated: 2023/11/15 15:34:54 by mda-cunh         ###   ########.fr       */
+/*   Updated: 2023/11/15 20:26:48 by mda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "get_next_line.h"
 
-char *merge_nl(char *safe_nl)
+char *merge_nl(char *nl_buff)
 {
 	int i;
 	int j;
 	char *merged;
-	
+	static int c;
+	if(!c)
+	c=0;	
 	i = 0;
-	j = 0;
-	if (!safe_nl[i])
+	j = 0; 
+	printf("Before merge N*%d :\n%s", c++, nl_buff);
+	if (!nl_buff[i])
 	{
-		free (safe_nl);
+		free (nl_buff);
 		return(NULL);	
 	}
-	while (safe_nl[i] && safe_nl[i] != '\n')
+	while (nl_buff[i] && nl_buff[i] != '\n')
 		i++;
 	merged = malloc((sizeof (char)) * (11000000 - i + 1));
 	if (!merged)
 		return (NULL);
 	i++;
-	while(safe_nl[j + i])
+	while(nl_buff[j + i])
 	{
-		merged[j] = safe_nl[j + i];
+		merged[j] = nl_buff[j + i];
 		j++;
 	}
-	merged[j] = '\0';
-	free (safe_nl);
+	printf("after merge :\n%s\n-----------------------------------------------", merged);
 	return (merged);
 }
 
-char *safe_nl(char *safe_nl)
+char *safe_nl(char *nl_buff)
 {
 	int i;
 	int j;
@@ -50,18 +52,16 @@ char *safe_nl(char *safe_nl)
 
 	i = 0;
 	j = 0;
-	if (!safe_nl[i])
-		return(NULL);		
-	while (safe_nl[i] && safe_nl[i] != '\n')
+	while (nl_buff[i] && nl_buff[i] != '\n')
 		i++;
-	buffer = malloc((sizeof (char)) * (i + 2));
+	if (!nl_buff[i])
+		return(NULL);		
+	buffer = malloc((sizeof (char)) * (i + 1));
 	if (!buffer)
 		return (NULL);
-	buffer[i] = '\n';
-	buffer[i + 1] = '\0';
-	while(safe_nl[j] != '\n' && safe_nl[j])
+	while(nl_buff[j - 1] != '\n' && nl_buff[j])
 	{
-		buffer[j] = safe_nl[j];
+		buffer[j] = nl_buff[j];
 		j++;
 	}
 	return(buffer);
@@ -81,8 +81,7 @@ char *save_nl(int fd, char *nl_buff)
 	int readed;
 	char *buffer;
 	
-	if (!nl_buff)
-		nl_buff = calloc(1, 1);
+	nl_buff = calloc(1, 1);
 	buffer = malloc((sizeof (char)) *  (BUFFER_SIZE + 1));
 	readed = 1;
  	while (readed)
@@ -108,14 +107,18 @@ char *get_next_line(int fd)
 {
 	char *buffer;
 	static char *nl;
-	
+	static int i;
+
+	if (!i)
+		i = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
-	if (!nl)
+	if (i++ <= 0)
 	{
 		nl = save_nl(fd, nl);
 		if (!nl)
 			return (NULL);
+	printf("starting NL : %s", nl);
 	}
 	buffer = safe_nl(nl);
 	nl = merge_nl(nl);
@@ -125,24 +128,31 @@ char *get_next_line(int fd)
 int main(int argc, char **argv)
 {
 	(void) argc;
-	// char *bleble;
 	int fd;
 
 	fd = open(argv[1], O_RDONLY);
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-							
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+/* 	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd); */
 	return (0);
 }
  
