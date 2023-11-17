@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-cunh <mda-cunh@42paris.fr>             +#+  +:+       +#+        */
+/*   By: mda-cunh <mda-cunh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 18:53:58 by mda-cunh          #+#    #+#             */
-/*   Updated: 2023/11/15 14:32:12 by mda-cunh         ###   ########.fr       */
+/*   Updated: 2023/11/17 12:52:31 by mda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*join;
 	size_t	i;
 	size_t	j;
+	size_t s1_len;
+	size_t s2_len;
 
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
 	if ((!s1) || (!s2))
 		return (NULL);
-	join = malloc((sizeof (char)) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	join = malloc((sizeof (char)) * (s1_len + s2_len) + 1);
 	if (!join)
 		return (NULL);
-	while (i < ft_strlen(s1))
-	{
+	while (++i < s1_len)
 		join[i] = s1[i];
-		i++;
-	}
-	while (j < ft_strlen(s2))
-	{
+	while (++j < s2_len)
 		join[i + j] = s2[j];
-		j++;
-	}
 	join[i + j] = '\0';
 	return (join);
 }

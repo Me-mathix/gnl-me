@@ -6,7 +6,7 @@
 /*   By: mda-cunh <mda-cunh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 18:23:02 by mda-cunh          #+#    #+#             */
-/*   Updated: 2023/11/16 13:38:18 by mda-cunh         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:56:52 by mda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ char *merge_nl(char *nl_buff)
 	int i;
 	int j;
 	char *merged;
+	size_t nl_size;
 	
 	i = 0;
-	j = 0; 
+	j = -1;
+	nl_size = ft_strlen(nl_buff);
 	if (!nl_buff[i])
 	{
 		free (nl_buff);
@@ -28,15 +30,12 @@ char *merge_nl(char *nl_buff)
 	}
 	while (nl_buff[i] && nl_buff[i] != '\n')
 		i++;
-	merged = malloc((sizeof (char)) * (ft_strlen(nl_buff) - i + 1));
+	merged = malloc((sizeof (char)) * (nl_size - i + 1));
 	if (!merged)
 		return (NULL);
 	i++;
-	while(nl_buff[j + i] != '\0')
-	{
+	while(++j + i < (int)nl_size)
 		merged[j] = nl_buff[j + i];
-		j++;
-	}
 	merged[j] = '\0';
 	free (nl_buff);
 	return (merged);
@@ -87,7 +86,7 @@ char *save_nl(int fd, char *nl_buff)
 		nl_buff = calloc(1, 1);
 	buffer = malloc((sizeof (char)) *  (BUFFER_SIZE + 1));
 	readed = 1;
- 	while (readed)
+ 	while (readed && !ft_strchr(nl_buff, '\n'))
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
 		if (readed == -1)
@@ -124,10 +123,10 @@ char *get_next_line(int fd)
 int main(int argc, char **argv)
 {
 	(void) argc;
-	// char *bleble;
+	char *bleble;
 	int fd;
-	// char *bitte;
-	// int i;
+	char *bitte;
+	int i;
 
 	fd = open(argv[1], O_RDONLY);
 	// printf("%s",get_next_line(fd));
@@ -142,15 +141,15 @@ int main(int argc, char **argv)
 	// printf("%s",get_next_line(fd));
 	// printf("%s",get_next_line(fd));
 	// printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
 	
-	// while (i++ < 100183)
-	// {
-	// 	bitte = get_next_line(fd);
-	// 	printf("%s", bitte);
-	// 	free (bitte);
-	// }
+	while (i++ < 100183)
+	{
+		bitte = get_next_line(fd);
+		printf("%s", bitte);
+		free (bitte);
+	}
 	return (0);
 }
  
