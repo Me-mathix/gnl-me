@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mda-cunh <mda-cunh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 18:23:02 by mda-cunh          #+#    #+#             */
-/*   Updated: 2023/11/21 14:21:11 by mda-cunh         ###   ########.fr       */
+/*   Updated: 2023/11/21 14:21:19 by mda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ char *save_nl(int fd, char *nl_buff)
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
 		if (readed == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 		buffer[readed] = '\0';
 		nl_buff = free_n_join(nl_buff, buffer);
 		if (!nl_buff)
@@ -108,15 +105,15 @@ char *save_nl(int fd, char *nl_buff)
 char *get_next_line(int fd)
 {
 	char *buffer;
-	static char *nl;
+	static char *nl[1024];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
-	nl = save_nl(fd, nl);
-	if (!nl)
+	nl[fd] = save_nl(fd, nl[fd]);
+	if (!nl[fd])
 		return (NULL);
-	buffer = safe_nl(nl);
-	nl = merge_nl(nl);
+	buffer = safe_nl(nl[fd]);
+	nl[fd] = merge_nl(nl[fd]);
 	return(buffer);
 }
 
