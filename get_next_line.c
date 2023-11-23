@@ -82,7 +82,7 @@ char	*save_nl(int fd, char *nl_buff)
 	char	*buffer;
 
 	if (!nl_buff)
-		nl_buff = calloc(1, 1);
+		nl_buff = ft_calloc(1, 1);
 	buffer = malloc((sizeof (char)) * (BUFFER_SIZE + 1));
 	readed = 1;
 	while (readed && !ft_strchr(nl_buff, '\n'))

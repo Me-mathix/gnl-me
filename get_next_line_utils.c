@@ -62,3 +62,34 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char *)s = '\0';
+		i++;
+		s++;
+	}
+}
+
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*alloc;
+
+	if ((size * nmemb) >= SIZE_MAX)
+		return (NULL);
+	if ((int) nmemb < 0 && (int) size < 0)
+		return (NULL);
+	if ((int)(size * nmemb) < 0)
+		return (NULL);
+	alloc = malloc(nmemb * size);
+	if (!alloc)
+		return (NULL);
+	ft_bzero(alloc, nmemb * size);
+	return (alloc);
+}
