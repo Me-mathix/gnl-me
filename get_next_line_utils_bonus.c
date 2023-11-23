@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mda-cunh <mda-cunh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 18:53:58 by mda-cunh          #+#    #+#             */
-/*   Updated: 2023/11/17 12:52:31 by mda-cunh         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:05:16 by mda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*join;
 	size_t	i;
 	size_t	j;
-	size_t s1_len;
-	size_t s2_len;
+	size_t	s1_len;
+	size_t	s2_len;
 
 	i = -1;
 	j = -1;
